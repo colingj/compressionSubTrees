@@ -35,6 +35,5 @@ public class Test1App
             true,true,false,false,true,true,false,false,true};
         System.out.println("diff1 "+lzwCompression.compress(diff1));
         System.out.println("diff2 "+lzwCompression.compress(diff2));
-        System.out.println(lzwCompression.compress("");
     }
 }

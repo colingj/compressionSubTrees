@@ -54,6 +54,10 @@ public class BooleanFunction
         ans += " " + (functionLUT[2]?1:0) + " " + (functionLUT[3]?1:0) +"\n";
         return ans;
     }
-    
+
+    public String functionName()
+    {
+        return name;
+    }
 
 }

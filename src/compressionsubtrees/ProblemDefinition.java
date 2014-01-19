@@ -7,6 +7,8 @@ public class ProblemDefinition
     /** for now, a problem definition is a target mapping from
      * an n-bit binary tuple to a single binary output, i.e. we 
      * are limiting ourselves to single-output functions for now */
+
+    /* is this ever used?? wibble **/
     
     int numberOfInputs;
     HashMap<Integer,Boolean> mapping;
