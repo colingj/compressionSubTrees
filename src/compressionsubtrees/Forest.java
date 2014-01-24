@@ -15,20 +15,19 @@ public class Forest
         prob = probp;
     }
 
-    public void createRandom(int numberOfInputs)
+    public void createRandom()
     {
         for (int i=0;i<numberOfTrees;i++)
         {
             treeList[i] = new BooleanTree();
-            treeList[i].generateRandomTree(prob.getNumberOfVariables());
+            treeList[i].generateRandomTree(prob);
         }
     }
 
     public void evaluateQuality()
-            throws java.io.IOException
     {
         int length = prob.getNumberOfVariables();
-        boolean[][] inputList = new boolean[(int)Math.pow(2,length)][length];
+        boolean[][] inputList; // = new boolean[(int)Math.pow(2,length)][length];
         inputList = createInputList(4);
         boolean[][] outputList = new boolean[numberOfTrees][(int)Math.pow(2,length)];
         boolean[] target = prob.getTarget();
@@ -36,14 +35,34 @@ public class Forest
         //difflist will be the difference between target and output
         for (int i=0;i<numberOfTrees;i++)
         {
+            int numberOfErrors = 0 ;
             for (int j=0;j<(int)Math.pow(2,length);j++)
             {
                 outputList[i][j] = treeList[i].eval(inputList[j]);
-                diffList[i][j] = outputList[i][j]==target[j]?true:false;
+                diffList[i][j] = outputList[i][j]==target[j];
+                if (outputList[i][j]!=target[j]) { numberOfErrors++; }
+                try
+                {
                 treeList[i].setQuality(gzipCompression.compress(diffList[i]));
+                }
+                catch (java.io.IOException ee) 
+                { 
+                    System.err.println("Error in evaluateQuality.");
+                    System.exit(1);
+                }
+            }
+            if (numberOfErrors==0)
+            {
+                System.out.println("Solution found.");
             }
         }
       Arrays.sort(treeList);
+    }
+    
+    public BooleanTree getBest()
+    {
+        this.evaluateQuality();
+        return treeList[0];
     }
 
     private boolean[][] createInputList(int length)
