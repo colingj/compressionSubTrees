@@ -9,7 +9,6 @@ public class BooleanTree implements Comparable<BooleanTree>
     BooleanNode root;
     int quality;
     
- 
     /** just for now, single-node trees **/
     public void generateRandomTree(int numberOfInputs)
     {
@@ -20,6 +19,18 @@ public class BooleanTree implements Comparable<BooleanTree>
         root.randomizeFunction();
         quality = 0;
     }
+        
+    /** a new constructor **/
+    public void generateRandomTree(Problem pp)
+    {
+        Random rnd = new Random();
+        BooleanNode l = pp.generateRandomStub();
+        BooleanNode r = pp.generateRandomStub();
+        root = new BooleanNode(0,l,r);
+        root.randomizeFunction();
+        quality = 0;
+    }
+  
     
     public boolean eval(boolean[] inputList)
     {
@@ -34,6 +45,11 @@ public class BooleanTree implements Comparable<BooleanTree>
     public int getQuality()
     {
         return quality;
+    }
+    
+    public BooleanNode getRootNode()
+    {
+        return root;
     }
 
     @Override
