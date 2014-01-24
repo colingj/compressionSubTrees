@@ -39,9 +39,10 @@ public class FindSolution
             if (!perfectSolutions.isEmpty())
             {
                 perfectSolutionFound = true;
-                System.out.println("\n ######################################");
-                System.out.println(perfectSolutions.size()
-                        +" found, which are:");
+                System.out.println("\n######################################");
+                int nps = perfectSolutions.size();
+                System.out.println(nps+" perfect solution"+(nps>1?"s":"")
+                        +" found, which "+(nps>1?"are:":"is:"));
                 for (BooleanTree perfectExample: perfectSolutions)
                 {
                     System.out.println(perfectExample);
