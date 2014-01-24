@@ -1,6 +1,6 @@
 package compressionsubtrees;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class Forest
 {
@@ -24,8 +24,9 @@ public class Forest
         }
     }
 
-    public void evaluateQuality()
+    public ArrayList<BooleanTree> evaluateQuality()
     {
+        ArrayList<BooleanTree> perfectSolutions = new ArrayList<BooleanTree>();
         int length = prob.getNumberOfVariables();
         boolean[][] inputList; // = new boolean[(int)Math.pow(2,length)][length];
         inputList = createInputList(4);
@@ -53,10 +54,11 @@ public class Forest
             }
             if (numberOfErrors==0)
             {
-                System.out.println("Solution found.");
+                perfectSolutions.add(treeList[i]);
             }
         }
       Arrays.sort(treeList);
+      return perfectSolutions;
     }
     
     public BooleanTree getBest()

@@ -1,5 +1,7 @@
 package compressionsubtrees;
 
+import java.util.*;
+
 /** this is the main loop which finds solutions **/
 public class FindSolution 
 {
@@ -17,15 +19,34 @@ public class FindSolution
     
     public void findIt()
     {
-        BooleanTree currentBest;
-        for (int t=0;t<10;t++) //wibble: eventually replace with check
+        boolean perfectSolutionFound = false;
+        int t=0; //generation count ("time")
+        while (!perfectSolutionFound)
         {
+            t++;
+            System.out.println("***************** Generation "+t);
+                    
+            //create a new forest of trees, evaluate, add the best
+            // to the cache
             ff = new Forest(numberOfExamples,pp);
             ff.createRandom();
-            ff.evaluateQuality();
-            currentBest = ff.getBest();
+            ArrayList<BooleanTree> perfectSolutions = ff.evaluateQuality();
+            BooleanTree currentBest = ff.getBest();
             System.out.println(currentBest);
             pp.addNodeToCache(currentBest.getRootNode());
+            
+            //check for perfect solutions
+            if (!perfectSolutions.isEmpty())
+            {
+                perfectSolutionFound = true;
+                System.out.println("\n ######################################");
+                System.out.println(perfectSolutions.size()
+                        +" found, which are:");
+                for (BooleanTree perfectExample: perfectSolutions)
+                {
+                    System.out.println(perfectExample);
+                }
+            }
         }
     }
 }

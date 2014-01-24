@@ -30,7 +30,6 @@ public class BooleanTree implements Comparable<BooleanTree>
         root.randomizeFunction();
         quality = 0;
     }
-  
     
     public boolean eval(boolean[] inputList)
     {
