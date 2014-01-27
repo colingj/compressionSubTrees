@@ -6,25 +6,30 @@ public class BooleanFunction
 {
     int functionType; //[0,15] representing the function
     boolean[] functionLUT;
+    Problem prob;
+    int[] functionList;
     String name;
 
     private static final String[] nameLookUp = new String[]
     { "allF","AND","f2","2nd","f4","1st","XOR","OR",
     "NOR","XNOR","f10","f11","f12","f13","NAND","allT"};
     
-    public BooleanFunction(int functionTypep)
+    public BooleanFunction(Problem prob, int functionTypep)
     {
+        //wibble: is this ever used?
+        functionList = prob.getFunctionList();
         functionType = functionTypep;
         functionLUT = findLUT(functionType);
         name = nameLookUp[functionType];
     }
     
     /* return a randomly chosen function */
-    public BooleanFunction()
+    public BooleanFunction(Problem prob)
     {
+        functionList = prob.getFunctionList();
         Random rand = new Random();
-        functionType = rand.nextInt(16);
-        functionLUT = findLUT(functionType);
+        functionType = rand.nextInt(functionList.length);
+        functionLUT = findLUT(functionList[functionType]);
         name = nameLookUp[functionType];
     }
     
@@ -35,10 +40,11 @@ public class BooleanFunction
     
     private boolean[] findLUT(int ft)
     {
+        //4 means 00,01,10,11
         boolean[] lut = new boolean[4];
         for (int i=0;i<4;i++)
         {
-            lut[i] = (ft%2==1)?true:false;
+            lut[i] = (ft%2==1)?true:false;//wibble: what?
             ft /= 2;
         }
         return lut;

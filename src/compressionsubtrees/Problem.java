@@ -7,8 +7,9 @@ public class Problem
     int numberOfVariables;
     boolean[] target;
     ArrayList<BooleanNode> addedNodes;
+    int[] functionList;
 
-    public void create4Parity()
+    public void create4ParityAllFunctions()
     {
         numberOfVariables = 4;
         target = new boolean[]{false,true,true,false,
@@ -16,6 +17,7 @@ public class Problem
                     true, false, false, true,
                     false, true, true, false};
         addedNodes = new ArrayList<BooleanNode>();
+        functionList = new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
     }
 
     public BooleanNode generateRandomStub()
@@ -25,7 +27,7 @@ public class Problem
         int r = rnd.nextInt(numberOfVariables+addedNodes.size());
         if (r<numberOfVariables)
         {
-            ans = new BooleanNode(r);//a terminal
+            ans = new BooleanNode(this,r);//a terminal
         }
         else
         {
@@ -47,5 +49,10 @@ public class Problem
     public int getNumberOfVariables()
     {
         return numberOfVariables;
+    }
+    
+    public int[] getFunctionList()
+    {
+        return functionList;
     }
 }

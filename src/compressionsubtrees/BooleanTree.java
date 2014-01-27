@@ -7,26 +7,29 @@ import java.util.*;
 public class BooleanTree implements Comparable<BooleanTree>
 {
     BooleanNode root;
+    Problem prob;
     int quality;
     
     /** just for now, single-node trees **/
-    public void generateRandomTree(int numberOfInputs)
+    public void generateRandomTree(Problem probp, int numberOfInputs)
     {
+        prob = probp; //wibble: make this a clone()?
         Random rnd = new Random();
-        BooleanNode l = new BooleanNode(rnd.nextInt(numberOfInputs));
-        BooleanNode r = new BooleanNode(rnd.nextInt(numberOfInputs));
-        root = new BooleanNode(0,l,r);
+        BooleanNode l = new BooleanNode(prob, rnd.nextInt(numberOfInputs));
+        BooleanNode r = new BooleanNode(prob, rnd.nextInt(numberOfInputs));
+        root = new BooleanNode(prob,0,l,r);
         root.randomizeFunction();
         quality = 0;
     }
         
     /** a new constructor **/
-    public void generateRandomTree(Problem pp)
+    public void generateRandomTree(Problem probp)
     {
+        prob = probp;
         Random rnd = new Random();
-        BooleanNode l = pp.generateRandomStub();
-        BooleanNode r = pp.generateRandomStub();
-        root = new BooleanNode(0,l,r);
+        BooleanNode l = prob.generateRandomStub();
+        BooleanNode r = prob.generateRandomStub();
+        root = new BooleanNode(prob,0,l,r);
         root.randomizeFunction();
         quality = 0;
     }

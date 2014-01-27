@@ -7,36 +7,33 @@ public class BooleanNode
     BooleanNode left,right;
     boolean isTerminal;
     int terminalIndex;
+    Problem prob;
 
     /** complete constructor - non-terminal **/
-    public BooleanNode(int functionType, BooleanNode leftp,  BooleanNode rightp)
+    public BooleanNode(Problem probp, int functionType, BooleanNode leftp,  BooleanNode rightp)
     {
+        prob = probp;
         isTerminal = false;
-        f = new BooleanFunction(functionType);
+        f = new BooleanFunction(prob, functionType);
         terminalIndex = -999;
         left = leftp;
         right = rightp;
     }
 
     /** constructor - terminal **/
-    public BooleanNode(int terminalIndexp)
+    public BooleanNode(Problem probp, int terminalIndexp)
     {
+        prob = probp; 
         isTerminal = true;
         f = null;
         left = null;
         right = null;
         terminalIndex = terminalIndexp;
     }
-
-    /**  constructor - relative to problem **/
-    public BooleanNode(Problem pp)
-    {
-        pp.generateRandomStub();
-    }
     
     public void randomizeFunction()
     {
-        f = new BooleanFunction();
+        f = new BooleanFunction(prob);
     }
 
     public boolean eval(boolean[] inputList)

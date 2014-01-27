@@ -12,7 +12,7 @@ public class FindSolution
     public FindSolution()
     {
         pp = new Problem();
-        pp.create4Parity(); // wibble: make this general
+        pp.create4ParityAllFunctions(); // wibble: make this general
         //ff = new Forest(numberOfExamples,pp);
         //ff.createRandom();
     }
