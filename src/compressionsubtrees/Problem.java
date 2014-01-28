@@ -19,6 +19,17 @@ public class Problem
         addedNodes = new ArrayList<BooleanNode>();
         functionList = new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
     }
+    
+    public void create4ParitySomeFunctions()
+    {
+        numberOfVariables = 4;
+        target = new boolean[]{false,true,true,false,
+            true, false, false, true,
+            true, false, false, true,
+            false, true, true, false};
+        addedNodes = new ArrayList<BooleanNode>();
+        functionList = new int[]{1,7,10,12};
+    }    
 
     public BooleanNode generateRandomStub()
     {
