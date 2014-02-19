@@ -6,7 +6,7 @@ public class Test4App
 {
     public static void main(String[] args)
     {
-        FindSolution fs = new FindSolution("parity4_some");
+        FindSolution fs = new FindSolution("parity8_some_bis");
         fs.findIt();
     }
 }

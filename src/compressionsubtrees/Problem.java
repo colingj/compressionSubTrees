@@ -28,8 +28,50 @@ public class Problem
             true, false, false, true,
             false, true, true, false};
         addedNodes = new ArrayList<BooleanNode>();
-        functionList = new int[]{1,7,10,12};
-    }    
+        functionList = new int[]{1,6,7,14};
+    }
+    
+    public void createParitySomeFunctions(int n)
+    {
+        numberOfVariables = n;
+        int noInputs = (int) Math.pow(2, numberOfVariables);
+        boolean[][] listOfInputs = BoolUtils.generateBoolSequences(numberOfVariables);
+        
+        target = new boolean[noInputs];
+        for (int i=0;i<noInputs;i++)
+        {
+            boolean parity = false;
+            for (int j=0;j<numberOfVariables;j++)
+            {
+                if (listOfInputs[i][j]) { parity = !parity; }
+            }
+            target [i] = parity;
+        }
+        addedNodes = new ArrayList<BooleanNode>();
+        functionList = new int[]{1,6,7,14};     
+    }
+    
+    public void createMajoritySomeFunctions(int n)
+    {
+        numberOfVariables = n;
+        int noInputs = (int) Math.pow(2, numberOfVariables);
+        boolean[][] listOfInputs = BoolUtils.generateBoolSequences(numberOfVariables);
+        
+        target = new boolean[noInputs];
+        for (int i=0;i<noInputs;i++)
+        {
+            int count = 0;
+            for (int j=0;j<numberOfVariables;j++)
+            {
+                if (listOfInputs[i][j]) { count++; }
+            }
+            if (count>=numberOfVariables/2) { target [i] = true; }
+            else { target[i] = false; }
+        }
+        addedNodes = new ArrayList<BooleanNode>();
+        functionList = new int[]{1,7,10};
+    }
+    
 
     public BooleanNode generateRandomStub()
     {
@@ -67,3 +109,8 @@ public class Problem
         return functionList;
     }
 }
+
+/** for reference:
+    { 0:"allF",1:"AND","f2",3:"2nd","f4",5:"1st",6:"XOR",7:"OR",
+    8:"NOR",9:"XNOR",10:"NOT1","f11",12:"NOT2","f13",14:"NAND",15:"allT"};
+ */

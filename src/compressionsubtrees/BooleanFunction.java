@@ -12,15 +12,15 @@ public class BooleanFunction
 
     private static final String[] nameLookUp = new String[]
     { "allF","AND","f2","2nd","f4","1st","XOR","OR",
-    "NOR","XNOR","f10","f11","f12","f13","NAND","allT"};
+    "NOR","XNOR","NOT1","f11","NOT2","f13","NAND","allT"};
     
     public BooleanFunction(Problem prob, int functionTypep)
     {
         //wibble: is this ever used?
         functionList = prob.getFunctionList();
         functionType = functionTypep;
-        functionLUT = findLUT(functionType);
-        name = nameLookUp[functionType];
+        functionLUT = findLUT(functionList[functionType]);
+        name = nameLookUp[functionList[functionType]];
     }
     
     /* return a randomly chosen function */
@@ -30,7 +30,7 @@ public class BooleanFunction
         Random rand = new Random();
         functionType = rand.nextInt(functionList.length);
         functionLUT = findLUT(functionList[functionType]);
-        name = nameLookUp[functionType];
+        name = nameLookUp[functionList[functionType]];
     }
     
     public boolean eval(boolean input1, boolean input2)

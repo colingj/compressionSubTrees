@@ -5,23 +5,42 @@ import java.util.*;
 /** this is the main loop which finds solutions **/
 public class FindSolution 
 {
-    static final int numberOfExamples = 100; //wibble: make a parameter
+    static final int numberOfExamples = 500; //wibble: make a parameter
     Problem pp;
     Forest ff;
     
-    public FindSolution()
+    public FindSolution(String problemType)
     {
         pp = new Problem();
-        pp.create4ParityAllFunctions(); // wibble: make this general
-        //ff = new Forest(numberOfExamples,pp);
-        //ff.createRandom();
+        //the following is rather crass
+        switch (problemType)
+        {
+            case "parity4_all":   
+                pp.create4ParityAllFunctions();
+                break;
+            case "parity4_some":
+                pp.create4ParitySomeFunctions();
+                break;
+            case "parity4_some_bis":
+                pp.createParitySomeFunctions(4);
+                break;
+            case "parity8_some_bis":
+                pp.createParitySomeFunctions(8);
+                break;
+            case "majority8_some":
+                pp.createMajoritySomeFunctions(8);
+                break;
+            default:
+                System.err.println("Problem type not defined.");
+                System.exit(1);
+        }
     }
     
     public void findIt()
     {
         boolean perfectSolutionFound = false;
         int t=0; //generation count ("time")
-        while (!perfectSolutionFound)
+        while (!perfectSolutionFound && t<100)
         {
             t++;
             System.out.println("***************** Generation "+t);

@@ -7,7 +7,6 @@ public class gzipCompression
 {
 
     public static int compress(boolean[] boolArray)
-            throws IOException
     {
         String str = new String();
         for (boolean b : boolArray)

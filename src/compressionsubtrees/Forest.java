@@ -29,7 +29,7 @@ public class Forest
         ArrayList<BooleanTree> perfectSolutions = new ArrayList<BooleanTree>();
         int length = prob.getNumberOfVariables();
         boolean[][] inputList; // = new boolean[(int)Math.pow(2,length)][length];
-        inputList = createInputList(4);
+        inputList = createInputList(prob.getNumberOfVariables());
         boolean[][] outputList = new boolean[numberOfTrees][(int)Math.pow(2,length)];
         boolean[] target = prob.getTarget();
         boolean[][] diffList = new boolean[numberOfTrees][(int) Math.pow(2, length)];
@@ -42,15 +42,7 @@ public class Forest
                 outputList[i][j] = treeList[i].eval(inputList[j]);
                 diffList[i][j] = outputList[i][j]==target[j];
                 if (outputList[i][j]!=target[j]) { numberOfErrors++; }
-                try
-                {
                 treeList[i].setQuality(gzipCompression.compress(diffList[i]));
-                }
-                catch (java.io.IOException ee) 
-                { 
-                    System.err.println("Error in evaluateQuality.");
-                    System.exit(1);
-                }
             }
             if (numberOfErrors==0)
             {
