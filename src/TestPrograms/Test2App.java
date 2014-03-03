@@ -7,7 +7,7 @@ public class Test2App
     public static void main(String[] args)
     {
         Problem prob = new Problem();
-        prob.create4ParityAllFunctions();
+        prob.createParityAllFunctions(4);
         BooleanTree t = new BooleanTree();
         t.generateRandomTree(prob,4);
         System.out.println(t);

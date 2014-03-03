@@ -8,28 +8,6 @@ public class Problem
     boolean[] target;
     ArrayList<BooleanNode> addedNodes;
     int[] functionList;
-
-    public void create4ParityAllFunctions()
-    {
-        numberOfVariables = 4;
-        target = new boolean[]{false,true,true,false,
-                    true, false, false, true,
-                    true, false, false, true,
-                    false, true, true, false};
-        addedNodes = new ArrayList<BooleanNode>();
-        functionList = new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
-    }
-    
-    public void create4ParitySomeFunctions()
-    {
-        numberOfVariables = 4;
-        target = new boolean[]{false,true,true,false,
-            true, false, false, true,
-            true, false, false, true,
-            false, true, true, false};
-        addedNodes = new ArrayList<BooleanNode>();
-        functionList = new int[]{1,6,7,14};
-    }
     
     public void createParitySomeFunctions(int n)
     {
@@ -49,6 +27,26 @@ public class Problem
         }
         addedNodes = new ArrayList<BooleanNode>();
         functionList = new int[]{1,6,7,14};     
+    }
+    
+        public void createParityAllFunctions(int n)
+    {
+        numberOfVariables = n;
+        int noInputs = (int) Math.pow(2, numberOfVariables);
+        boolean[][] listOfInputs = BoolUtils.generateBoolSequences(numberOfVariables);
+        
+        target = new boolean[noInputs];
+        for (int i=0;i<noInputs;i++)
+        {
+            boolean parity = false;
+            for (int j=0;j<numberOfVariables;j++)
+            {
+                if (listOfInputs[i][j]) { parity = !parity; }
+            }
+            target [i] = parity;
+        }
+        addedNodes = new ArrayList<BooleanNode>();
+        functionList = new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
     }
     
     public void createMajoritySomeFunctions(int n)

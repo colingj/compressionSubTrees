@@ -9,26 +9,20 @@ public class FindSolution
     Problem pp;
     Forest ff;
     
-    public FindSolution(String problemType)
+    public FindSolution(String problemType, int size)
     {
         pp = new Problem();
         //the following is rather crass
         switch (problemType)
         {
-            case "parity4_all":   
-                pp.create4ParityAllFunctions();
+            case "parity_all":   
+                pp.createParityAllFunctions(size);
                 break;
-            case "parity4_some":
-                pp.create4ParitySomeFunctions();
+            case "parity_some":
+                pp.createParitySomeFunctions(size);
                 break;
-            case "parity4_some_bis":
-                pp.createParitySomeFunctions(4);
-                break;
-            case "parity8_some_bis":
-                pp.createParitySomeFunctions(8);
-                break;
-            case "majority8_some":
-                pp.createMajoritySomeFunctions(8);
+            case "majority_some":
+                pp.createMajoritySomeFunctions(size);
                 break;
             default:
                 System.err.println("Problem type not defined.");
