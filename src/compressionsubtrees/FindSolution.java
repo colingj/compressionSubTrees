@@ -24,13 +24,16 @@ public class FindSolution
             case "majority_some":
                 pp.createMajoritySomeFunctions(size);
                 break;
+            case "multiplexer_all":
+                pp.createMultiplexer(size);
+                break;
             default:
                 System.err.println("Problem type not defined.");
                 System.exit(1);
         }
     }
     
-    public void findIt()
+    public void findIt() //this is TDF_comp: the main program
     {
         boolean perfectSolutionFound = false;
         int t=0; //generation count ("time")
@@ -47,6 +50,7 @@ public class FindSolution
             BooleanTree currentBest = ff.getBest();
             System.out.println(currentBest);
             pp.addNodeToCache(currentBest.getRootNode());
+            System.out.println("Current Cache: "+pp.printCache());
             
             //check for perfect solutions
             if (!perfectSolutions.isEmpty())
@@ -62,5 +66,15 @@ public class FindSolution
                 }
             }
         }
+    }
+    
+    public void tdfEntropy()
+    {
+        boolean perfectSolutionFound = false;
+        int t=0;
+        ff = new Forest(numberOfExamples,pp);
+        ff.createRandom();
+        //ArrayList<BooleanTree> perfectSolutions = ff.evaluateQualityIG();
+        //wibble - incomplete
     }
 }

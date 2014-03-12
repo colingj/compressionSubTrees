@@ -1,4 +1,5 @@
 package compressionsubtrees;
+import java.util.*;
 
 /** class to represent 2-input boolean nodes **/
 public class BooleanNode
@@ -8,6 +9,7 @@ public class BooleanNode
     boolean isTerminal;
     int terminalIndex;
     Problem prob;
+    Set<Integer> variableList;
 
     /** complete constructor - non-terminal **/
     public BooleanNode(Problem probp, int functionType, BooleanNode leftp,  BooleanNode rightp)
@@ -18,6 +20,9 @@ public class BooleanNode
         terminalIndex = -999;
         left = leftp;
         right = rightp;
+        variableList = new HashSet<>();
+        variableList.addAll(left.getVariableList());
+        variableList.addAll(right.getVariableList());
     }
 
     /** constructor - terminal **/
@@ -29,6 +34,13 @@ public class BooleanNode
         left = null;
         right = null;
         terminalIndex = terminalIndexp;
+        variableList = new HashSet<>();
+        variableList.add(terminalIndex);
+    }
+    
+    Set<Integer> getVariableList()
+    {
+        return variableList;
     }
     
     public void randomizeFunction()

@@ -8,7 +8,7 @@ public class BooleanTree implements Comparable<BooleanTree>
 {
     BooleanNode root;
     Problem prob;
-    int quality;
+    double quality;
     
     /** just for now, single-node trees **/
     public void generateRandomTree(Problem probp, int numberOfInputs)
@@ -19,7 +19,7 @@ public class BooleanTree implements Comparable<BooleanTree>
         BooleanNode r = new BooleanNode(prob, rnd.nextInt(numberOfInputs));
         root = new BooleanNode(prob,0,l,r);
         root.randomizeFunction();
-        quality = 0;
+        quality = 0.0;
     }
         
     /** a new constructor **/
@@ -31,7 +31,7 @@ public class BooleanTree implements Comparable<BooleanTree>
         BooleanNode r = prob.generateRandomStub();
         root = new BooleanNode(prob,0,l,r);
         root.randomizeFunction();
-        quality = 0;
+        quality = 0.0;
     }
     
     public boolean eval(boolean[] inputList)
@@ -39,12 +39,12 @@ public class BooleanTree implements Comparable<BooleanTree>
         return root.eval(inputList);
     }
 
-    public void setQuality(int qualityp)
+    public void setQuality(double qualityp)
     {
         quality = qualityp;
     }
 
-    public int getQuality()
+    public double getQuality()
     {
         return quality;
     }
@@ -53,6 +53,11 @@ public class BooleanTree implements Comparable<BooleanTree>
     {
         return root;
     }
+    
+    public Set<Integer> getVariableList()
+    {
+        return root.getVariableList();
+    }
 
     @Override
     public String toString()
@@ -60,8 +65,9 @@ public class BooleanTree implements Comparable<BooleanTree>
         return root.toString()+" with quality "+quality;
     }
 
+    @Override
     public int compareTo(BooleanTree compareTree)
     {
-        return this.getQuality() - compareTree.getQuality();
+        return (int)Math.signum(this.getQuality() - compareTree.getQuality());
     }
 }
