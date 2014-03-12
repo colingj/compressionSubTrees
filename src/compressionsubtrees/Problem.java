@@ -9,7 +9,7 @@ public class Problem
     ArrayList<BooleanNode> addedNodes;
     int[] functionList;
     
-    public void createParitySomeFunctions(int n)
+    public void createParitySomeFunctions(int n, boolean even)
     {
         numberOfVariables = n;
         int noInputs = (int) Math.pow(2, numberOfVariables);
@@ -18,7 +18,7 @@ public class Problem
         target = new boolean[noInputs];
         for (int i=0;i<noInputs;i++)
         {
-            boolean parity = false;
+            boolean parity = even;//initialised from parameter
             for (int j=0;j<numberOfVariables;j++)
             {
                 if (listOfInputs[i][j]) { parity = !parity; }
@@ -29,7 +29,7 @@ public class Problem
         functionList = new int[]{1,6,7,14};     
     }
     
-        public void createParityAllFunctions(int n)
+    public void createParityAllFunctions(int n,boolean even)
     {
         numberOfVariables = n;
         int noInputs = (int) Math.pow(2, numberOfVariables);
@@ -38,7 +38,7 @@ public class Problem
         target = new boolean[noInputs];
         for (int i=0;i<noInputs;i++)
         {
-            boolean parity = false;
+            boolean parity = even;
             for (int j=0;j<numberOfVariables;j++)
             {
                 if (listOfInputs[i][j]) { parity = !parity; }
@@ -49,6 +49,28 @@ public class Problem
         functionList = new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
     }
     
+    public void createMultiplexer(int n)
+            //n will be the number of bits in the selector
+            //so e.g. n=1 is the "3-bit multiplexer"
+    {
+        numberOfVariables = n+(int)Math.pow(2,n);
+        int noInputs = (int) Math.pow(2, numberOfVariables);
+        boolean[][] listOfInputs = BoolUtils.generateBoolSequences(numberOfVariables);
+        
+        target = new boolean[noInputs];
+        for (int i=0;i<noInputs;i++)
+        {
+            int lookup = 0;
+            for (int j=0;j<n;j++)
+            {
+                
+            }
+                    
+        }
+
+        //wibble: incomplete
+    }
+        
     public void createMajoritySomeFunctions(int n)
     {
         numberOfVariables = n;
@@ -70,7 +92,6 @@ public class Problem
         functionList = new int[]{1,7,10};
     }
     
-
     public BooleanNode generateRandomStub()
     {
         BooleanNode ans;

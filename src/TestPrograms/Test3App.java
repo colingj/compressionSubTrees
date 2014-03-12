@@ -7,7 +7,7 @@ public class Test3App
     public static void main(String[] args)
     {
         Problem pp = new Problem();
-        pp.createMajoritySomeFunctions(5);
+        pp.createParityAllFunctions(4,false);
         Forest ff = new Forest(100,pp);
         ff.createRandom();
 

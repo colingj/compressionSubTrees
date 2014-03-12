@@ -7,7 +7,7 @@ public class Test5App
     public static void main(String[] args)
     {
         Problem prob = new Problem();
-        prob.createParityAllFunctions(4);
+        prob.createParityAllFunctions(4,false);
         for (int i=0;i<15;i++)
         {
             System.out.println("****** i="+i+" ************");

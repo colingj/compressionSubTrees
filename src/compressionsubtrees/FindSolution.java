@@ -16,10 +16,10 @@ public class FindSolution
         switch (problemType)
         {
             case "parity_all":   
-                pp.createParityAllFunctions(size);
+                pp.createParityAllFunctions(size, false);
                 break;
             case "parity_some":
-                pp.createParitySomeFunctions(size);
+                pp.createParitySomeFunctions(size, false);
                 break;
             case "majority_some":
                 pp.createMajoritySomeFunctions(size);
@@ -37,7 +37,7 @@ public class FindSolution
         while (!perfectSolutionFound && t<100)
         {
             t++;
-            System.out.println("***************** Generation "+t);
+            System.out.println("***************** Iteration "+t);
                     
             //create a new forest of trees, evaluate, add the best
             // to the cache
