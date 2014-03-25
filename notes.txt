@@ -11,4 +11,9 @@ Practical Notes
 
 git pull	to get update from github
 
+git add .
+git commit "reference"
+git push origin master
+    	 	to put update back on github
+
 
