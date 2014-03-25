@@ -4,3 +4,11 @@ Future Developments
 At present we set up problems by writing new methods in
 Problem.java. We might eventually want to create an abstract "Problem"
 class and subclass problems from it.
+
+
+Practical Notes
++++++++++++++++
+
+git pull	to get update from github
+
+
