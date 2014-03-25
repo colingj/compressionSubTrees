@@ -5,6 +5,9 @@ At present we set up problems by writing new methods in
 Problem.java. We might eventually want to create an abstract "Problem"
 class and subclass problems from it.
 
+Infogain simply explained:
+http://courses.cs.washington.edu/courses/cse455/10au/notes/InfoGain.pdf
+
 
 Practical Notes
 +++++++++++++++
@@ -12,7 +15,7 @@ Practical Notes
 git pull	to get update from github
 
 git add .
-git commit "reference"
+git commit -m "reference"
 git push origin master
     	 	to put update back on github
 
