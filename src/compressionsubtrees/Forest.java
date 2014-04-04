@@ -101,6 +101,56 @@ public class Forest
       Arrays.sort(treeList);
       return perfectSolutions;
     }
+
+    private double calculateIG(boolean[] diffList, Set<Integer> variableList)
+    {       
+        int length = prob.getNumberOfVariables();
+        // we want the variables _not_ used, i.e. not those in variableList
+        int[] variables = new int[prob.getNumberOfVariables()-variableList.size()];
+        int m=0;
+        for (int i=0;i<length;i++)
+        {
+            if (!variableList.contains(i)) { variables[m]=i; m++; }
+        }
+        
+        /** wibble test print **/
+        System.out.println("Variables remaining");
+        for (int v: variables) { System.out.println("variable: "+v); }
+        /** wibble end of test print **/
+
+        if (variables.length==0)
+        {
+            System.err.println("No variables");
+            System.exit(1);
+        }
+        
+        //current working position
+        
+        boolean[][] subInputs = createInputList(variables.length);
+        int[] labels = new int[(int)Math.pow(2, length)];
+        
+        /** iterate through the inputs **/
+        for (int i=0;i<inputList.length;i++)
+        {
+            boolean allMatching = true;
+            for (int j=0;j<(int)Math.pow(2,variables.length);j++)
+            {
+                for (int k=0;k<variables.length;k++)
+                {
+                    if (subInputs[j][k] != inputList[j][variables[k]])
+                    {
+                        allMatching=false;
+                    }
+                }
+                if (allMatching)
+                {
+                    labels[j] = //wibble: whatever 
+                            }
+        }
+        //boolean partialApps = new boolean[(int}Math.pow(2,))]
+        
+        return -999.0;//wibble scratch value
+    }
        
     //input list. first parameter is entry number, second is the variable index
     private boolean[][] createInputList(int length)
@@ -116,35 +166,6 @@ public class Forest
         return inputListl;
     }
     
-    private double calculateIG(boolean[] diffList, Set<Integer> variableList)
-    {       
-        System.out.println("Variables");
-        for (Integer v: variableList) { System.out.println("variable: "+v); }
-        
-        /********************************************************************/
-        int length = prob.getNumberOfVariables();
-        // we want the variables _not_ used, i.e. not those in variableList
-        int[] variables = new int[prob.getNumberOfVariables()-variableList.size()];
-        int j=0;
-        for (int i=0;i<length;i++)
-        {
-            if (!variableList.contains(i)) { variables[j]=i; j++; }
-        }
-        
-        System.out.println("Variables remaining");
-        for (int v: variables) { System.out.println("variable: "+v); }
-        
-        int[] whichPA = new int[(int)Math.pow(2,length)];
-        
-        for (int i=0;i<(int)Math.pow(2,length);i++)
-        {
-        }
-        
-        //boolean partialApps = new boolean[(int}Math.pow(2,))]
-        
-        return -999.0;//wibble scratch value
-    }
-
     @Override
     public String toString()
     {
