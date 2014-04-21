@@ -8,6 +8,7 @@ public class Test3App
     {
         Problem pp = new Problem();
         pp.createParityAllFunctions(4,false);
+
         //Forest ff = new Forest(100,pp);
         Forest ff = new Forest(1,pp);
         ff.createRandom();

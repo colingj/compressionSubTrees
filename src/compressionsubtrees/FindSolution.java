@@ -52,7 +52,7 @@ public class FindSolution
             // to the cache
             ff = new Forest(numberOfExamples,pp);
             ff.createRandom();
-            ArrayList<BooleanTree> perfectSolutions = ff.evaluateQuality();
+            ArrayList<BooleanTree> perfectSolutions = ff.evaluateQuality_Comp();
             BooleanTree currentBest = ff.getBest();
             System.out.println(currentBest);
             pp.addNodeToCache(currentBest.getRootNode());

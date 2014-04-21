@@ -5,14 +5,18 @@ import java.util.*;
 public class Forest
 {
     int numberOfTrees;
-    BooleanTree[] treeList;
     Problem prob;
+    BooleanTree[] treeList;
+    boolean[][] inputList;
+
 
     public Forest(int numberOfTreesp, Problem probp)
     {
         numberOfTrees = numberOfTreesp;
-        treeList = new BooleanTree[numberOfTrees];
         prob = probp;
+        treeList = new BooleanTree[numberOfTrees];
+        //inputList = new boolean[(int)Math.pow(2,length)][length];
+        inputList = createInputList(prob.getNumberOfVariables());
     }
 
     public void createRandom()
@@ -24,20 +28,27 @@ public class Forest
         }
     }
 
-    public ArrayList<BooleanTree> evaluateQuality()
+    public ArrayList<BooleanTree> evaluateQuality_Comp()
+            //this is quality evaluation using compression
     {
         ArrayList<BooleanTree> perfectSolutions = new ArrayList<BooleanTree>();
         int length = prob.getNumberOfVariables();
         boolean[][] inputList;
         inputList = createInputList(length);
+
         boolean[][] outputList = new boolean[numberOfTrees][(int)Math.pow(2,length)];
         boolean[] target = prob.getTarget();
         boolean[][] diffList = new boolean[numberOfTrees][(int) Math.pow(2, length)];
         //difflist will be the difference between target and output
+        /** iterate through the trees **/
         for (int i=0;i<numberOfTrees;i++)
             //iterate through the trees in the forest
         {
-            int numberOfErrors = 0 ;
+            /** iterate through the inputs 
+             * to see whether this is a perfect solution **/
+            /** wibble: there might be a better way of doing this
+             * by checking on compression first **/         
+            int numberOfErrors = 0;
             for (int j=0;j<(int)Math.pow(2,length);j++)
                 //iterate through the inputs
             {
@@ -50,6 +61,7 @@ public class Forest
             {
                 perfectSolutions.add(treeList[i]);
             }
+            treeList[i].setQuality(gzipCompression.compress(diffList[i]));        
         }
       Arrays.sort(treeList);
       return perfectSolutions;
@@ -61,11 +73,12 @@ public class Forest
     
     public BooleanTree getBest()
     {
-        this.evaluateQuality();
+        this.evaluateQuality_Comp();
         return treeList[0];
     }
 
     public ArrayList<BooleanTree> evaluateQuality_IG()
+            //this is quality evaluation using information gain
     {
         //create a list to store perfect solutions if any are found
         ArrayList<BooleanTree> perfectSolutions =  new ArrayList<BooleanTree>();
@@ -78,6 +91,10 @@ public class Forest
         //difflist will be the difference between target and output
         for (int i=0;i<numberOfTrees;i++)
         {
+            /** iterate through the inputs 
+             * to see whether this is a perfect solution **/
+            /** wibble: there might be a better way of doing this
+             * by checking on compression first **/ 
             int numberOfErrors = 0 ;
             for (int j=0;j<(int)Math.pow(2,length);j++)
             {
@@ -85,13 +102,13 @@ public class Forest
                 diffList[i][j] = outputList[i][j]==target[j];
                 if (outputList[i][j]!=target[j]) { numberOfErrors++; }    
             }
-            Set<Integer> variableList = treeList[i].getVariableList();
-            treeList[i].setQuality(calculateIG(diffList[i],variableList));
-            
             if (numberOfErrors==0)
             {
                 perfectSolutions.add(treeList[i]);
             }
+            /** now calculate the quality measure **/
+            Set<Integer> variableList = treeList[i].getVariableList();
+            treeList[i].setQuality(calculateIG(diffList[i],variableList));
         }
       Arrays.sort(treeList);
       return perfectSolutions;
@@ -116,13 +133,7 @@ public class Forest
             //variablelList is the list of all variables that are
             //  included in the tree under consideration
     {        
-        System.out.println("Variable list:");
-        for (Integer ii: variableList) { System.out.print(ii+", "); }
-        System.out.println("\n");
-                
-        //substantive content starts here:        
         int length = prob.getNumberOfVariables();
-        boolean[][] inputList = createInputList(prob.getNumberOfVariables());
         // we want the variables _not_ used, i.e. not those in variableList
         int[] absentVariables 
                 = new int[prob.getNumberOfVariables()-variableList.size()];
@@ -202,7 +213,7 @@ public class Forest
         
         return -999.0;//wibble scratch value
     }
-
+    
     @Override
     public String toString()
     {
