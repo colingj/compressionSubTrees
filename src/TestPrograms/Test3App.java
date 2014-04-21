@@ -7,15 +7,16 @@ public class Test3App
     public static void main(String[] args)
     {
         Problem pp = new Problem();
-        //pp.createParityAllFunctions(4,false);
-        pp.createMultiplexer(2);
-        Forest ff = new Forest(100,pp);
+        pp.createParityAllFunctions(4,false);
+        //Forest ff = new Forest(100,pp);
+        Forest ff = new Forest(1,pp);
         ff.createRandom();
 
-        ff.evaluateQuality();
         System.out.println(ff);
+        ff.evaluateQuality_IG();
+
         
-        BooleanTree tt = ff.getBest();
-        System.out.println("\n And the best is "+tt);
+        //BooleanTree tt = ff.getBest();
+        //System.out.println("\n And the best is "+tt);
     }
 }

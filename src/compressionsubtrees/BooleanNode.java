@@ -20,7 +20,7 @@ public class BooleanNode
         terminalIndex = -999;
         left = leftp;
         right = rightp;
-        variableList = new HashSet<>();
+        variableList = new HashSet<Integer>();
         variableList.addAll(left.getVariableList());
         variableList.addAll(right.getVariableList());
     }
@@ -34,7 +34,7 @@ public class BooleanNode
         left = null;
         right = null;
         terminalIndex = terminalIndexp;
-        variableList = new HashSet<>();
+        variableList = new HashSet<Integer>();
         variableList.add(terminalIndex);
     }
     

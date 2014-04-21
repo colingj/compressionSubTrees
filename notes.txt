@@ -8,6 +8,10 @@ class and subclass problems from it.
 Infogain simply explained:
 http://courses.cs.washington.edu/courses/cse455/10au/notes/InfoGain.pdf
 
+Miscellaneous observations
+++++++++++++++++++++++++++
+
+It is interesting that GZIP is order dependent.
 
 Practical Notes
 +++++++++++++++

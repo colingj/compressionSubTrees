@@ -27,7 +27,7 @@ public class Problem
             }
             target [i] = parity;
         }
-        addedNodes = new ArrayList<>();
+        addedNodes = new ArrayList<BooleanNode>();
         functionList = new int[]{1,6,7,14};     
     }
     
@@ -47,7 +47,7 @@ public class Problem
             }
             target [i] = parity;
         }
-        addedNodes = new ArrayList<>();
+        addedNodes = new ArrayList<BooleanNode>();
         functionList = new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
     }
     
@@ -69,7 +69,7 @@ public class Problem
             }
             target[i] = listOfInputs[i][lookup];
         }
-        addedNodes = new ArrayList<>();
+        addedNodes = new ArrayList<BooleanNode>();
         functionList = new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
     }
         
@@ -90,7 +90,7 @@ public class Problem
             if (count>=numberOfVariables/2) { target [i] = true; }
             else { target[i] = false; }
         }
-        addedNodes = new ArrayList<>();
+        addedNodes = new ArrayList<BooleanNode>();
         functionList = new int[]{1,7,10};
     }
     

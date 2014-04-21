@@ -13,6 +13,11 @@ public class FindSolution
     {
         pp = new Problem();
         //the following is rather crass
+        System.out.println("Due to restrictions, change source to change prob.");
+        pp.createParityAllFunctions(size,false);
+        //wibble: the remainder commented out for Java1.6
+    
+        /*
         switch (problemType)
         {
             case "parity_all":   
@@ -31,6 +36,7 @@ public class FindSolution
                 System.err.println("Problem type not defined.");
                 System.exit(1);
         }
+        */
     }
     
     public void findIt() //this is TDF_comp: the main program
@@ -69,6 +75,7 @@ public class FindSolution
     }
     
     public void tdfEntropy()
+            //this will TDF_IG - the other main program
     {
         boolean perfectSolutionFound = false;
         int t=0;
