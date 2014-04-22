@@ -5,16 +5,15 @@ import java.util.*;
 public class Forest
 {
     int numberOfTrees;
-    Problem prob;
     BooleanTree[] treeList;
+    Problem prob;
     boolean[][] inputList;
-
-
+    
     public Forest(int numberOfTreesp, Problem probp)
     {
         numberOfTrees = numberOfTreesp;
-        prob = probp;
         treeList = new BooleanTree[numberOfTrees];
+        prob = probp;
         //inputList = new boolean[(int)Math.pow(2,length)][length];
         inputList = createInputList(prob.getNumberOfVariables());
     }
@@ -33,22 +32,14 @@ public class Forest
     {
         ArrayList<BooleanTree> perfectSolutions = new ArrayList<BooleanTree>();
         int length = prob.getNumberOfVariables();
-        boolean[][] inputList;
-        inputList = createInputList(length);
-
         boolean[][] outputList = new boolean[numberOfTrees][(int)Math.pow(2,length)];
         boolean[] target = prob.getTarget();
         boolean[][] diffList = new boolean[numberOfTrees][(int) Math.pow(2, length)];
         //difflist will be the difference between target and output
-        /** iterate through the trees **/
         for (int i=0;i<numberOfTrees;i++)
             //iterate through the trees in the forest
         {
-            /** iterate through the inputs 
-             * to see whether this is a perfect solution **/
-            /** wibble: there might be a better way of doing this
-             * by checking on compression first **/         
-            int numberOfErrors = 0;
+            int numberOfErrors = 0 ;
             for (int j=0;j<(int)Math.pow(2,length);j++)
                 //iterate through the inputs
             {
@@ -61,7 +52,6 @@ public class Forest
             {
                 perfectSolutions.add(treeList[i]);
             }
-            treeList[i].setQuality(gzipCompression.compress(diffList[i]));        
         }
       Arrays.sort(treeList);
       return perfectSolutions;
@@ -71,7 +61,7 @@ public class Forest
     // to pass in which function to use for the line where we evaluate
     // the quality
     
-    public BooleanTree getBest()
+    public BooleanTree getBest_Comp()
     {
         this.evaluateQuality_Comp();
         return treeList[0];
@@ -83,8 +73,6 @@ public class Forest
         //create a list to store perfect solutions if any are found
         ArrayList<BooleanTree> perfectSolutions =  new ArrayList<BooleanTree>();
         int length = prob.getNumberOfVariables();
-        boolean[][] inputList;
-        inputList = createInputList(prob.getNumberOfVariables());
         boolean[][] outputList = new boolean[numberOfTrees][(int)Math.pow(2,length)];
         boolean[] target = prob.getTarget();
         boolean[][] diffList = new boolean[numberOfTrees][(int) Math.pow(2, length)];
@@ -102,13 +90,13 @@ public class Forest
                 diffList[i][j] = outputList[i][j]==target[j];
                 if (outputList[i][j]!=target[j]) { numberOfErrors++; }    
             }
+            Set<Integer> variableList = treeList[i].getVariableList();
+            treeList[i].setQuality(calculateIG(diffList[i],variableList));
+            
             if (numberOfErrors==0)
             {
                 perfectSolutions.add(treeList[i]);
             }
-            /** now calculate the quality measure **/
-            Set<Integer> variableList = treeList[i].getVariableList();
-            treeList[i].setQuality(calculateIG(diffList[i],variableList));
         }
       Arrays.sort(treeList);
       return perfectSolutions;
@@ -117,22 +105,27 @@ public class Forest
     //input list. first parameter is entry number, second is the variable index
     private boolean[][] createInputList(int length)
     {
-        boolean[][] inputList = new boolean[(int)Math.pow(2,length)][length];
+        boolean[][] inputListl = new boolean[(int)Math.pow(2,length)][length];
         //these are [index_of_input][variable_number]
         for (int val = 0; val < (int)Math.pow(2, length); val++)
         {
             for (int i = length - 1; i >= 0; i--)
             {
-                inputList[val][i] = (val & (1 << i)) != 0;
+                inputListl[val][i] = (val & (1 << i)) != 0;
             }
         }
-        return inputList;
+        return inputListl;
     }
     
     private double calculateIG(boolean[] diffList, Set<Integer> variableList)
             //variablelList is the list of all variables that are
             //  included in the tree under consideration
     {        
+        //System.out.println("Variable list:");
+        //for (Integer ii: variableList) { System.out.print(ii+", "); }
+        //System.out.println("\n");
+                
+        //substantive content starts here:        
         int length = prob.getNumberOfVariables();
         // we want the variables _not_ used, i.e. not those in variableList
         int[] absentVariables 
@@ -151,11 +144,11 @@ public class Forest
         }
         
         //print out the absent variableList
-        System.out.println("Absent variable list:");
-        for (int ii: absentVariables) { System.out.println(ii+", "); }
-        System.out.println("There are "+absentVariables.length
-                +" absent variables.");
-        System.out.println("\n");
+        //System.out.println("Absent variable list:");
+        //for (int ii: absentVariables) { System.out.println(ii+", "); }
+        //System.out.println("There are "+absentVariables.length
+        //        +" absent variables.");
+        //System.out.println("\n");
         
         /** calculate the PA classification map **/
         
@@ -191,6 +184,7 @@ public class Forest
           PAs[idx].add((Boolean)diffList[i]);
         }
         
+        /*
         System.out.println("Here are the PAs");
         for (int j=0;j<numberOfPAs;j++)
         {
@@ -198,22 +192,92 @@ public class Forest
             for (Object o: PAs[j]) { System.out.print((Boolean)o+", "); }
             System.out.println();
         }        
-        //current working position
-        
-        
-        //wibble: to be completed
+        */
         
         /** now calculate the IG based on the groups **/
+        //notation: BS = before split, AS = after split
         
-        //wibble: to be done
+        double countTrueBS = 0.0;
+        double countFalseBS = 0.0;
+        double[] countTrueAS = new double[numberOfPAs];
+        double[] countFalseAS = new double[numberOfPAs];
+        double total = 0.0;
+        double[] totalByPA = new double[numberOfPAs];
+        for (int j=0;j<numberOfPAs;j++)
+        {
+            countTrueAS[j] = 0.0;
+            countFalseAS[j] = 0.0;
+            totalByPA[j] = 0.0;
+        }
+        for (int j=0;j<numberOfPAs;j++)
+        {
+            for (Object o: PAs[j]) 
+            {
+                total += 1.0;
+                totalByPA[j] += 1.0;
+                boolean b = ((Boolean)o).booleanValue();
+                if (b)
+                {
+                    countTrueBS += 1.0;
+                    countTrueAS[j] += 1.0;
+                }
+                else
+                {
+                    countFalseBS += 1.0;
+                    countFalseAS[j] += 1.0;
+                }
+            } 
+        }
+                
+        /*
+        System.out.println("Overall, countTrue is "+countTrueBS);
+        System.out.println("Overall, countFalse is "+countFalseBS);
+        System.out.println("Overall, total is "+total);
+        for (int j=0;j<numberOfPAs;j++)
+        {
+            System.out.println("For PA "+j+" countTrue is "+countTrueAS[j]);
+            System.out.println("For PA "+j+" countFalse is "+countFalseAS[j]);
+            System.out.println("For PA "+j+" total is "+totalByPA[j]);
+        }
+        */
+        
+        
+        double entropyBS = 0.0;
+        entropyBS = -((countTrueBS/total) * log2(countTrueBS/total))
+                -((countFalseBS/total) * log2(countTrueBS/total));
+        //System.out.println("Entropy before split is: "+entropyBS);
+        
+        double[] entropyASbyPA = new double[numberOfPAs];
+        for (int j=0;j<numberOfPAs;j++)
+        {
+            entropyASbyPA[j] = -((countTrueAS[j]/totalByPA[j]) * log2(countTrueAS[j]/totalByPA[j]))
+                    -((countFalseAS[j]/totalByPA[j]) * log2(countFalseAS[j]/totalByPA[j]));
+        }
+        double entropyAS = 0.0;
+        for (int j=0;j<numberOfPAs;j++)
+        {
+            entropyAS += (totalByPA[j]/total)*entropyASbyPA[j];
+        }
+        //System.out.println("Entropy after split is: "+entropyAS);
+        
+        double informationGain = entropyBS - entropyAS;
+        //System.out.println("Information gain is: "+informationGain);
         
         /** closing **/
         
-        //wibble: to be done
-        
-        return -999.0;//wibble scratch value
+        return informationGain;
     }
     
+    private double log2(double x)
+    {
+        double answer;
+        if (x==0.0)
+        { answer = 0.0; }
+        else
+        { answer = Math.log(x)/Math.log(2); }
+        return answer;
+    }
+
     @Override
     public String toString()
     {

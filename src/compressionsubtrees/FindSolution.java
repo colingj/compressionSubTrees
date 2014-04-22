@@ -12,31 +12,19 @@ public class FindSolution
     public FindSolution(String problemType, int size)
     {
         pp = new Problem();
-        //the following is rather crass
-        System.out.println("Due to restrictions, change source to change prob.");
-        pp.createParityAllFunctions(size,false);
-        //wibble: the remainder commented out for Java1.6
-    
-        /*
-        switch (problemType)
+        if (problemType.equals("parity_all")) 
+          { pp.createParityAllFunctions(size, false); }
+        else if (problemType.equals("parity_some")) 
+          { pp.createParitySomeFunctions(size, false); }
+        else if (problemType.equals("majority_some")) 
+          { pp.createMajoritySomeFunctions(size); }
+        else if (problemType.equals("multiplexer_all")) 
+          { pp.createMultiplexer(size); }
+        else
         {
-            case "parity_all":   
-                pp.createParityAllFunctions(size, false);
-                break;
-            case "parity_some":
-                pp.createParitySomeFunctions(size, false);
-                break;
-            case "majority_some":
-                pp.createMajoritySomeFunctions(size);
-                break;
-            case "multiplexer_all":
-                pp.createMultiplexer(size);
-                break;
-            default:
-                System.err.println("Problem type not defined.");
-                System.exit(1);
+            System.err.println("Problem type not defined.");
+            System.exit(1);
         }
-        */
     }
     
     public void findIt() //this is TDF_comp: the main program
@@ -53,7 +41,7 @@ public class FindSolution
             ff = new Forest(numberOfExamples,pp);
             ff.createRandom();
             ArrayList<BooleanTree> perfectSolutions = ff.evaluateQuality_Comp();
-            BooleanTree currentBest = ff.getBest();
+            BooleanTree currentBest = ff.getBest_Comp();
             System.out.println(currentBest);
             pp.addNodeToCache(currentBest.getRootNode());
             System.out.println("Current Cache: "+pp.printCache());

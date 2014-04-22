@@ -17,7 +17,7 @@ public class Test3App
         ff.evaluateQuality_IG();
 
         
-        //BooleanTree tt = ff.getBest();
+        //BooleanTree tt = ff.getBest_Comp();
         //System.out.println("\n And the best is "+tt);
     }
 }
