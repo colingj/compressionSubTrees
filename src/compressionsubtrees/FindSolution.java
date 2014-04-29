@@ -7,10 +7,20 @@ public class FindSolution
 {
     static final int numberOfExamples = 500; //wibble: make a parameter
     Problem pp;
+    String fitnessType;
     Forest ff;
     
-    public FindSolution(String problemType, int size)
+    public FindSolution(String problemType, int size, String fitnessTypep)
     {
+        if (fitnessTypep.equals("Comp")||fitnessTypep.equals("IGR"))
+        {
+            fitnessType = fitnessTypep;
+        }
+        else
+        {
+            System.err.println("In FindSolution: Fitness method not defined (1)");
+            System.exit(1);
+        }
         pp = new Problem();
         if (problemType.equals("parity_all")) 
           { pp.createParityAllFunctions(size, false); }
@@ -40,11 +50,26 @@ public class FindSolution
             // to the cache
             ff = new Forest(numberOfExamples,pp);
             ff.createRandom();
-            ArrayList<BooleanTree> perfectSolutions = ff.evaluateQuality_Comp();
-            BooleanTree currentBest = ff.getBest_Comp();
+            ArrayList<BooleanTree> perfectSolutions = new ArrayList<BooleanTree>();
+            BooleanTree currentBest = new BooleanTree();
+            if (fitnessType.equals("Comp"))
+            {
+                perfectSolutions = ff.evaluateQuality_Comp();
+                currentBest = ff.getBest_Comp();
+            }
+            else if (fitnessType.equals("IGR"))
+            {
+                perfectSolutions = ff.evaluateQuality_IGR();
+                currentBest = ff.getBest_IGR();
+            }
+            else
+            {
+                System.err.println("In FindSolution: Fitness method not defined (2)");
+                System.exit(1);
+            }
             System.out.println(currentBest);
             pp.addNodeToCache(currentBest.getRootNode());
-            System.out.println("Current Cache: "+pp.printCache());
+            System.out.println("Current Construction Set: "+pp.printCache());
             
             //check for perfect solutions
             if (!perfectSolutions.isEmpty())

@@ -67,7 +67,7 @@ public class Forest
         return treeList[0];
     }
 
-    public ArrayList<BooleanTree> evaluateQuality_IG()
+    public ArrayList<BooleanTree> evaluateQuality_IGR()
             //this is quality evaluation using information gain
     {
         //create a list to store perfect solutions if any are found
@@ -91,7 +91,7 @@ public class Forest
                 if (outputList[i][j]!=target[j]) { numberOfErrors++; }    
             }
             Set<Integer> variableList = treeList[i].getVariableList();
-            treeList[i].setQuality(calculateIG(diffList[i],variableList));
+            treeList[i].setQuality(1.0-calculateIGR(diffList[i],variableList));
             
             if (numberOfErrors==0)
             {
@@ -101,7 +101,13 @@ public class Forest
       Arrays.sort(treeList);
       return perfectSolutions;
     }
-       
+     
+    public BooleanTree getBest_IGR()
+    {
+        this.evaluateQuality_IGR();
+        return treeList[0];
+    }
+        
     //input list. first parameter is entry number, second is the variable index
     private boolean[][] createInputList(int length)
     {
@@ -117,7 +123,7 @@ public class Forest
         return inputListl;
     }
     
-    private double calculateIG(boolean[] diffList, Set<Integer> variableList)
+    private double calculateIGR(boolean[] diffList, Set<Integer> variableList)
             //variablelList is the list of all variables that are
             //  included in the tree under consideration
     {        
@@ -132,9 +138,7 @@ public class Forest
                 = new int[prob.getNumberOfVariables()-variableList.size()];
         //note: absentVariables is the list of all variables that are
         //  not in the current tree
-        //wibble: if the size of this this is _zero_ then we are going
-        //  to have to do something different!
-        //note: We need to check whether "absentVariables" draws correctly
+        //wibble: We need to check whether "absentVariables" draws correctly
         //  on variables that are part of "theories" as well as raw
         //  input variables
         int k=0;
@@ -263,9 +267,18 @@ public class Forest
         double informationGain = entropyBS - entropyAS;
         //System.out.println("Information gain is: "+informationGain);
         
+        /** calculate the IG ratio **/
+        double intrinsicValue = 0.0;
+        for (int j=0;j<numberOfPAs;j++)
+        {
+            intrinsicValue += (totalByPA[j]/total)*log2(totalByPA[j]/total);
+        }
+        intrinsicValue = -intrinsicValue;
+        double informationGainRatio = informationGain/intrinsicValue;
+        
         /** closing **/
         
-        return informationGain;
+        return informationGainRatio;
     }
     
     private double log2(double x)

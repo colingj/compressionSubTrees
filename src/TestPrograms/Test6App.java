@@ -11,7 +11,7 @@ public class Test6App
         Forest ff = new Forest(1,pp);
         ff.createRandom();
 
-        ff.evaluateQuality_IG();
+        ff.evaluateQuality_IGR();
         System.out.println(ff);
         
         //BooleanTree tt = ff.getBest();
