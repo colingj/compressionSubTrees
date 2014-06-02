@@ -28,6 +28,7 @@ public class gzipCompression
             gzip.write(str.getBytes());
             gzip.close();
             outStr = out.toString("ISO-8859-1");
+            //System.out.println("Output string: "+outStr);
             //System.out.println("Output String length : " + outStr.length());
         }
         catch (java.io.IOException ee)

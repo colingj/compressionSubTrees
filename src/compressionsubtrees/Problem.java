@@ -55,6 +55,8 @@ public class Problem
             //n will be the number of bits in the selector
             //so e.g. n=1 is the "3-bit multiplexer"
     {
+        //the first _n_ variables are the address, the rest the data
+        
         numberOfVariables = n+(int)Math.pow(2,n);
         int noInputs = (int) Math.pow(2, numberOfVariables);
         boolean[][] listOfInputs = BoolUtils.generateBoolSequences(numberOfVariables);
@@ -70,7 +72,7 @@ public class Problem
             target[i] = listOfInputs[i][lookup];
         }
         addedNodes = new ArrayList<BooleanNode>();
-        functionList = new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+        functionList = new int[]{1,6,7,14};
     }
         
     public void createMajoritySomeFunctions(int n)
