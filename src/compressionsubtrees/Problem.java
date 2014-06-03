@@ -9,7 +9,8 @@ public class Problem
     //addedNodes are the "theories". Together with the variables,
     // these form the construction set.
     ArrayList<BooleanNode> addedNodes;
-    int[] functionList;
+    int[][] functionList;
+    boolean withNots;
     
     public void createParitySomeFunctions(int n, boolean even)
     {
@@ -28,7 +29,12 @@ public class Problem
             target [i] = parity;
         }
         addedNodes = new ArrayList<BooleanNode>();
-        functionList = new int[]{1,6,7,14};     
+        functionList = new int[2][4];
+        functionList[0][0] = 2; functionList[1][0] = 1;
+        functionList[0][1] = 2; functionList[1][1] = 6;
+        functionList[0][2] = 2; functionList[1][2] = 7;
+        functionList[0][3] = 2; functionList[1][3] = 14;  
+        withNots = false;
     }
     
     public void createParityAllFunctions(int n,boolean even)
@@ -48,7 +54,13 @@ public class Problem
             target [i] = parity;
         }
         addedNodes = new ArrayList<BooleanNode>();
-        functionList = new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+        
+        functionList = new int[2][16];
+        for (int i=0;i<16;i++)
+        {
+            functionList[0][i] = 2; functionList[1][i] = i;
+        }
+        withNots = false;
     }
     
     public void createMultiplexer(int n)
@@ -72,7 +84,12 @@ public class Problem
             target[i] = listOfInputs[i][lookup];
         }
         addedNodes = new ArrayList<BooleanNode>();
-        functionList = new int[]{1,6,7,14};
+               functionList = new int[2][15];
+        for (int i=0;i<16;i++)
+        {
+            functionList[0][i] = 2; functionList[1][i] = i;
+        }
+        withNots = false;
     }
         
     public void createMajoritySomeFunctions(int n)
@@ -93,7 +110,11 @@ public class Problem
             else { target[i] = false; }
         }
         addedNodes = new ArrayList<BooleanNode>();
-        functionList = new int[]{1,7,10};
+        functionList = new int[2][3];
+        functionList[0][0] = 2; functionList[1][0] = 1;
+        functionList[0][1] = 2; functionList[1][1] = 7;
+        functionList[0][2] = 2; functionList[1][2] = 10; 
+        withNots = false;
     }
     
     public BooleanNode generateRandomStub()
@@ -106,12 +127,14 @@ public class Problem
         //  variable list
         if (r<numberOfVariables)
         {
-            ans = new BooleanNode(this,r);//a terminal
+            ans = new BooleanNode(this,r);
+            //a terminal (variable) from the first part of the construction set
         }
         // otherwise, we add a node from the theories
         else
         {
-            ans = addedNodes.get(r-numberOfVariables);//from the cache
+            ans = addedNodes.get(r-numberOfVariables);
+            //a "theory" from the second part of the construction set
         }
         return ans;
     }
@@ -131,7 +154,7 @@ public class Problem
         return numberOfVariables;
     }
     
-    public int[] getFunctionList()
+    public int[][] getFunctionList()
     {
         return functionList;
     }
