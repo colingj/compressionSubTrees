@@ -2,36 +2,29 @@ package compressionsubtrees;
 
 import java.util.*;
 
-/** this will represent the sub-trees eventually **/
+/** this represents the sub-trees **/
 
 public class BooleanTree implements Comparable<BooleanTree>
 {
     BooleanNode root;
     Problem prob;
     double quality;
-    
-    /** just for now, single-node trees **/
-    public void generateRandomTree(Problem probp, int numberOfInputs)
-    {
-        prob = probp; //wibble: make this a clone()?
-        Random rnd = new Random();
-        BooleanNode l = new BooleanNode(prob, rnd.nextInt(numberOfInputs));
-        BooleanNode r = new BooleanNode(prob, rnd.nextInt(numberOfInputs));
-        root = new BooleanNode(prob,0,l,r);
-        root.randomizeFunction();
-        quality = 0.0;
-    }
         
     /** a new constructor **/
     public void generateRandomTree(Problem probp)
     {
         prob = probp;
-        Random rnd = new Random();
-        BooleanNode l = prob.generateRandomStub();
-        BooleanNode r = prob.generateRandomStub();
-        root = new BooleanNode(prob,0,l,r);
+        BooleanNode[] children = new BooleanNode[2];
+        children[0] = prob.generateRandomStub();
+        children[1] = prob.generateRandomStub();
+        root = new BooleanNode(prob,0,children);
         root.randomizeFunction();
         quality = 0.0;
+        /*
+        wibble - eventually we need to refactor this
+        so that we know the arity _first_ and then
+        can generate the correct number of child nodes
+        */
     }
     
     public boolean eval(boolean[] inputList)
@@ -68,6 +61,9 @@ public class BooleanTree implements Comparable<BooleanTree>
     @Override
     public int compareTo(BooleanTree compareTree)
     {
+        //System.out.println("**********");
+        //System.out.println("This: "+this.getQuality());
+        //System.out.println("That: "+compareTree.getQuality());
         return (int)Math.signum(this.getQuality() - compareTree.getQuality());
     }
 }

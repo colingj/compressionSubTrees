@@ -11,10 +11,10 @@ public class Test5App
         for (int i=0;i<15;i++)
         {
             System.out.println("****** i="+i+" ************");
-            BooleanFunction bf = new BooleanFunction(prob,i);
-            System.out.println(bf);
-            System.out.println(bf.eval(true, true));
-            System.out.println();
+            //BooleanFunction bf = new BooleanFunction(prob,i);
+            //System.out.println(bf);
+            //System.out.println(bf.eval(true, true));
+            //System.out.println();
         }
     }
 }

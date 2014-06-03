@@ -10,7 +10,7 @@ public class Test2App
         prob.createParityAllFunctions(4,false);
         //prob.createParityAllFunctions(1);
         BooleanTree t = new BooleanTree();
-        t.generateRandomTree(prob,4);
+        t.generateRandomTree(prob);
         System.out.println(t);
         boolean[] inputs = new boolean[]{true,false,true,false};
         System.out.println(t.eval(inputs));

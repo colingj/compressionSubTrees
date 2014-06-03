@@ -1,28 +1,31 @@
 package compressionsubtrees;
 import java.util.*;
 
-/** class to represent 2-input boolean nodes **/
+/** class to represent n-input boolean nodes **/
 public class BooleanNode
 {
     BooleanFunction f;
-    BooleanNode left,right;
+    BooleanNode[] children;
     boolean isTerminal;
     int terminalIndex;
     Problem prob;
     Set<Integer> variableList;
 
-    /** complete constructor - non-terminal **/
-    public BooleanNode(Problem probp, int functionType, BooleanNode leftp,  BooleanNode rightp)
+    /** complete constructor - non-terminal - any arity **/
+    public BooleanNode(Problem probp, int functionType, BooleanNode[] childrenIn)
     {
         prob = probp;
         isTerminal = false;
         f = new BooleanFunction(prob, functionType);
         terminalIndex = -999;
-        left = leftp;
-        right = rightp;
+        
+        children = new BooleanNode[childrenIn.length];
+        System.arraycopy(childrenIn, 0, children, 0, childrenIn.length);
         variableList = new HashSet<Integer>();
-        variableList.addAll(left.getVariableList());
-        variableList.addAll(right.getVariableList());
+        for (int i=0;i<childrenIn.length;i++)
+        {
+            variableList.addAll(children[i].getVariableList());
+        }
     }
 
     /** constructor - terminal **/
@@ -31,8 +34,7 @@ public class BooleanNode
         prob = probp; 
         isTerminal = true;
         f = null;
-        left = null;
-        right = null;
+        children = null;
         terminalIndex = terminalIndexp;
         variableList = new HashSet<Integer>();
         variableList.add(terminalIndex);
@@ -56,7 +58,12 @@ public class BooleanNode
         }
         else //is non-terminal
         {
-            return f.eval(left.eval(inputList), right.eval(inputList));
+            boolean[] inputsToEval = new boolean[children.length];
+            for (int i=0;i<children.length;i++)
+            {
+                inputsToEval[i] = children[i].eval(inputList);
+            }
+            return f.eval(inputsToEval);
         }
     }
 
@@ -69,7 +76,13 @@ public class BooleanNode
         }
         else
         {
-            return "("+f.functionName()+" "+left+" "+right+")";
+            String childListStr = new String();
+            for (int i=0;i<children.length-1;i++)
+            {
+                childListStr += children[i]+" ";
+            }
+            childListStr += children[children.length-1];
+            return "("+f.functionName()+" "+childListStr+")";
         }
     }
 
